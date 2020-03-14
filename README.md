@@ -1,1 +1,1 @@
-"# python-mpg" 
+# Python MPG (Mastercard Payment Gateway)
