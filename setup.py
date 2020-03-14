@@ -13,6 +13,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/glidematrix/python-mpg",
     packages=setuptools.find_packages(),
+    install_requires=[
+        'requests',
+    ],
     classifiers=[
         "Mastercard Visa Payment Gateway",
         "License :: OSI Approved :: MIT License",
