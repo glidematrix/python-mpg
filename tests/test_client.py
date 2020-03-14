@@ -14,7 +14,7 @@ from mpg import Client
 merchant_id = os.getenv('merchant_id')
 access_code = os.getenv('access_code')
 secret = os.getenv('secret')
-currency = 'USD'
+currency = 'ZMW'
 
 
 # pprint(os.environ)
