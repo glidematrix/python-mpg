@@ -2,6 +2,8 @@
 # Created by https://www.gitignore.io/api/venv,dotenv,python
 # Edit at https://www.gitignore.io/?templates=venv,dotenv,python
 
+.vscode
+
 ### dotenv ###
 .env
 
