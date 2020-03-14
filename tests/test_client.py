@@ -35,17 +35,17 @@ client = Client(
 
 
 # TEST Card
-card = {
-    'cardnum': '5204740009900014',
-    'expiry': 2212,
-    'csc': 123,
-}
+# card = {
+#     'cardnum': '5204740009900014',
+#     'expiry': 2212,
+#     'csc': 123,
+# }
 
 
-res = client.process_2_party({
-    'amount': amount,
-    'currency': currency,
-    **card
-})
+# res = client.process_2_party({
+#     'amount': amount,
+#     'currency': currency,
+#     **card
+# })
 
-pprint(res)
+# pprint(res)
