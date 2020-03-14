@@ -1,4 +1,0 @@
-{
-  "python.pythonPath": ".\\tests\\venv\\Scripts\\python.exe",
-  "python.formatting.autopep8Args": ["--ignore", "E402"]
-}
