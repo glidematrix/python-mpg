@@ -46,8 +46,9 @@ payload = {
     'csc': 123, #Card Security Code[CVV etc]
 }
 
+client.load_card(payload)
 
-res = client.process_2_party(payload)
+res = client.process_card()
 
 print(res)
 
@@ -59,7 +60,7 @@ print(res)
 
 amount = 10
 
-link = client.gen_3_party_link(amount)
+link = client.payment_link(amount)
 print(link)
 
 

@@ -5,9 +5,9 @@ python:
 install:
   - pip install flake8 'pylint<2.0'
 
-script:
-  - flake8 --max-line-length=120 --exclude=./setup.py,./tests/test_client.py
-  - pylint -E mpg ./tests/test_client.py
+# script:
+#   - flake8 --max-line-length=120 --exclude=./setup.py,./tests/test_client.py
+#   - pylint -E mpg ./tests/test_client.py
 
 branches:
   only:

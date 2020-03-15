@@ -30,7 +30,7 @@ client = Client(
 )
 
 # Generate 3rd Party Payment Link
-# link = client.gen_3_party_link(amount)
+# link = client.payment_link(amount)
 # print(link)
 
 
@@ -42,10 +42,12 @@ client = Client(
 # }
 
 
-# res = client.process_2_party({
+# client.load_card({
 #     'amount': amount,
 #     'currency': currency,
 #     **card
 # })
+
+# res = client.process_card()
 
 # pprint(res)

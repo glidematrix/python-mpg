@@ -30,15 +30,15 @@ class Client:
                                   sha256).hexdigest().upper()
         return generated_hash
 
-    def gen_3_party_link(self, amount):
+    def payment_link(self, amount):
         '''
-        Takes in an amount and generates a payment link for 2 party payments
+        Takes in an amount and generates a payment link for 3rd party payments
         '''
 
         vpc_OrderInfo = f"Order_{int(time())}"
         vpc_MerchTxnRef = f"Ref_{int(time())}"
 
-        vpc_Amount = int(amount*100)
+        vpc_Amount = int(amount * 100)
 
         data = {
             'vpc_OrderInfo': vpc_OrderInfo,
@@ -65,10 +65,14 @@ class Client:
 
         return link
 
-    def process_2_party(self, data):
+    def load_card(self, data):
+        '''
+            Load card details and amount for 2nd Party Transaction.
+            Process 2nd Party Transaction.
+        '''
         vpc_OrderInfo = f"Order_{int(time())}"
         vpc_MerchTxnRef = f"Ref_{int(time())}"
-        vpc_Amount = int(data.get('amount')*100)
+        vpc_Amount = int(data.get('amount') * 100)
         # vpc_Currency = data.get('currency', 'ZMW')
         vpc_Currency = self.currency
         vpc_CardNum = data.get('cardnum')
@@ -92,6 +96,15 @@ class Client:
         payload_data['vpc_SecureHash'] = self.gen_hash(payload_data)
         payload_data['vpc_SecureHashType'] = 'SHA256'
 
-        r = requests.post(f"{self.base_url}/vpcdps", data=payload_data)
+        self.card_payload = payload_data
+
+        # r = requests.post(f"{self.base_url}/vpcdps", data=payload_data)
+
+        # return parse_qs(r.text)
+    def process_card(self):
+        '''
+            Process 2nd Party Transaction.
+        '''
+        r = requests.post(f"{self.base_url}/vpcdps", data=self.card_payload)
 
         return parse_qs(r.text)
