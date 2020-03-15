@@ -108,3 +108,53 @@ class Client:
         r = requests.post(f"{self.base_url}/vpcdps", data=self.card_payload)
 
         return parse_qs(r.text)
+
+    def verify_txn(self, res_dict):
+
+        is_verified = False
+
+        self.desc = self.res_desc(res_dict['vpc_TxnResponseCode'])
+
+        res_dict.pop('vpc_SecureHashType', None)
+        res_hash = res_dict.pop('vpc_SecureHash', None)
+
+        res_data_hash = self.gen_hash(
+            OrderedDict(sorted(res_dict.items())))
+        is_verified = (res_data_hash == res_hash)
+
+        return is_verified
+
+    def res_desc(self, txn_code):
+        '''
+            returns a response code description 
+        '''
+        code_descs = {
+            '0': 'Transaction Successful',
+            '?': 'Transaction status is unknown',
+            '1': 'Unknown Error',
+            '2': 'Bank Declined Transaction',
+            '3': 'No Reply from Bank',
+            '4': 'Expired Card',
+            '5': 'Insufficient funds',
+            '6': 'Error Communicating with Bank',
+            '7': 'Payment Server System Error',
+            '8': 'Transaction Type Not Supported',
+            '9': 'Bank declined transaction (Do not contact Bank)',
+            'A': 'Transaction Aborted',
+            'B': 'Transaction Blocked',
+            'C': 'Transaction Cancelled',
+            'D': 'Deferred transaction has been received and is awaiting processing',
+            'F': '3D Secure Authentication failed',
+            'I': 'Card Security Code verification failed',
+            'L': 'Shopping Transaction Locked (Please try the transaction again later)',
+            'N': 'Cardholder is not enrolled in Authentication scheme',
+            'P': 'Transaction has been received by the Payment Adaptor and is being processed',
+            'R': 'Transaction was not processed - Reached limit of retry  attempts allowed',
+            'S': 'Duplicate SessionID (OrderInfo)',
+            'T': 'Address Verification Failed',
+            'U': 'Card Security Code Failed',
+            'V': 'Address Verification and Card Security Code Failed',
+            'X-X': 'Payment Has ERRORS',
+        }
+
+        return code_descs.get(txn_code, 'Unable to be determined')
