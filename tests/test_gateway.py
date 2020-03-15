@@ -2,11 +2,14 @@ import unittest
 
 import sys
 import os
-
-from dotenv import load_dotenv
 from pprint import pprint
 
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError as e:
+    pass
+
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
