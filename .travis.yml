@@ -2,14 +2,11 @@ language: python
 python:
   - "3.6"
 
-# install:
-#   - pip install flake8 'pylint<2.0'
+install:
+  - pip install git+https://git@github.com/glidematrix/python-mpg.git
 
-# script:
-#   - flake8 --max-line-length=120 --exclude=./setup.py,./tests/test_client.py
-#   - pylint -E mpg ./tests/test_client.py
-
-script: python -m unittest tests.test_gateway
+script:
+  - python -m unittest tests.test_gateway
 
 branches:
   only:
