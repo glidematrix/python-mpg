@@ -30,22 +30,15 @@ class Client:
                                   sha256).hexdigest().upper()
         return generated_hash
 
-    def payment_link(self, amount, card=None, order_info=None, merch_txn_ref=None):
+    def payment_link(self, amount, card=None):
         '''
         Takes in an amount and generates a payment link for 3rd party payments
         '''
 
-        vpc_OrderInfo = order_info or f"Order_{int(time())}"
-        vpc_MerchTxnRef = merch_txn_ref or f"Ref_{int(time())}"
+        vpc_OrderInfo = f"Order_{int(time())}"
+        vpc_MerchTxnRef = f"Ref_{int(time())}"
 
         vpc_Amount = int(amount * 100)
-
-        SecondParty = {
-            "vpc_CardNum": "5123456789012346",
-            "vpc_CardExp": 2212,
-            "vpc_CardSecurityCode": 123,
-            "vpc_Desc": "Optional Description for verified by visa",
-        }
 
         data = {
             'vpc_OrderInfo': vpc_OrderInfo,
@@ -61,9 +54,6 @@ class Client:
             'vpc_gateway': 'ssl',
             # 'vpc_card': 'Visa',
             # 'vpc_card': 'Mastercard',
-            # **SecondParty
-            # 'vpc_TxSourceSubType': 'RECURRING'
-
         }
 
         if(card):
@@ -78,10 +68,6 @@ class Client:
         urlencoded_data_str = urlencode(data)
 
         link = f"{self.base_url}/vpcpay?{urlencoded_data_str}"
-
-        # r = requests.post(f"{self.base_url}/vpcpay?{urlencoded_data_str}", data=SecondParty)
-
-        # print(r.text)
 
         return link
 
@@ -121,7 +107,7 @@ class Client:
             'vpc_CardExp': vpc_CardExp,  # YYMM
             'vpc_CardSecurityCode': vpc_CardSecurityCode,
             # **avs,
-            'vpc_TxSourceSubType': 'RECURRING'
+            # 'vpc_TxSourceSubType': 'RECURRING'
         }
         payload_data = OrderedDict(sorted(payload_data.items()))
         payload_data['vpc_SecureHash'] = self.gen_hash(payload_data)
@@ -129,11 +115,9 @@ class Client:
 
         self.card_payload = payload_data
 
-
         # r = requests.post(f"{self.base_url}/vpcdps", data=payload_data)
 
         # return parse_qs(r.text)
-
     def process_card(self):
         '''
             Process 2nd Party Transaction.

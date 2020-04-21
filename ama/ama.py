@@ -1,5 +1,6 @@
 import requests
 from urllib.parse import urlencode, parse_qs
+from pprint import pprint
 
 
 class Ama:
@@ -26,13 +27,15 @@ class Ama:
             'vpc_Command': 'refund',
             'vpc_MerchTxnRef': merchant_txn_ref,
             'vpc_TransNo': txn_num,
-            'vpc_OrderInfo': order_info,
+            # 'vpc_OrderInfo': order_info,
             'vpc_Amount': int(amount * 100),
             'vpc_AccessCode': self.access_code,
             'vpc_Merchant': self.merchant_id,
             'vpc_User': self.user,
             'vpc_Password': self.password
         }
+
+        pprint(payload)
 
         r = requests.post(f"{self.base_url}/vpcdps", data=payload)
 
@@ -48,6 +51,8 @@ class Ama:
             'vpc_User': self.user,
             'vpc_Password': self.password
         }
+
+        # pprint(payload)
 
         r = requests.post(f"{self.base_url}/vpcdps", data=payload)
 
